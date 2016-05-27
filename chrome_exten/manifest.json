@@ -1,26 +1,33 @@
 {
   "manifest_version": 2,
 
-  "name": "Getting started example",
-  "description": "This extension shows a Google Image search result for the current page",
+  "name": "Acronym Search",
+  "description": "This extension shows the full form of acronyms",
   "version": "1.0",
 
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html",
-    "default_title": "Click here!"
+    "default_title": "Acronym Search"
   },
   "permissions": [
+    "contextMenus",
     "activeTab",
     "https://ajax.googleapis.com/",
     "http://*/*",
     "https://*/*"
   ],
 
+  "icons": {
+
+    "16": "icon.png"
+
+    },
+
   "content_scripts": [{
-     "js": ["jquery.js", "popup.js"],
+     "js": ["popup.js"],
      "matches": ["http://*/*", "https://*/*"]
    }],
 
-  "web_accessible_resources": [ "popup.js","jquery.js" ]
+  "web_accessible_resources": [ "popup.js" ]
 }
