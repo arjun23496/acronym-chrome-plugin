@@ -21,6 +21,7 @@ function queryRemote(query)
 {
 	// var query=document.getElementById("query").value;
 	var url='http://cds-myonlinesites.rhcloud.com?q='+query;
+	// var url='http://localhost:8080?q='+query;
 	var xhr = new XMLHttpRequest();
 
 	console.log(url);

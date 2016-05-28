@@ -13,17 +13,16 @@ chrome.contextMenus.onClicked.addListener(onClickHandler);
 function onClickHandler(info, tab) {
   var sText = info.selectionText;
   
+  chrome.notifications.create({
+		type: "basic",
+		iconUrl: "icon.png",
+		title: "Acronym Finder",
+		message: "Searching",
+	});
+
   queryRemote(sText);
 
 };
-
-chrome.notifications.create({
-	type: "basic",
-	iconUrl: "icon.png",
-	title: "Acronym Finder",
-	message: "Network Problem",
-	progress: 0
-});
 
 function queryRemote(query)
 {
@@ -35,13 +34,6 @@ function queryRemote(query)
 	xhr.open("GET", url, true);
 	xhr.send(null);
 	
-	chrome.notifications.create({
-		type: "basic",
-		iconUrl: "icon.png",
-		title: "Acronym Finder",
-		message: "Network Problem",
-	});
-
 	xhr.onreadystatechange = function() 
 	{
 		if(xhr.readyState == 4 && xhr.status == 200) 
@@ -68,8 +60,7 @@ function queryRemote(query)
 			  		title: "Acronym Finder",
 			  		message: "Found "+n+" acronyms",
 			  		items: items,
-			  		isClickable: true,
-			  		requireInteraction: true
+			  		isClickable: true
 			  	});
 	    	}
 	    	else
