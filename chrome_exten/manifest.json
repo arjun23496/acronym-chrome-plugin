@@ -10,9 +10,16 @@
     "default_popup": "popup.html",
     "default_title": "Acronym Search"
   },
+  
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
+
   "permissions": [
+    "tabs",
     "contextMenus",
-    "activeTab",
+    "notifications",
     "https://ajax.googleapis.com/",
     "http://*/*",
     "https://*/*"

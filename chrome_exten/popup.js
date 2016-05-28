@@ -2,20 +2,19 @@ document.addEventListener('DOMContentLoaded', function () {
       document.querySelector('button').addEventListener('click', handleButtonQuery);      
 });
 
-chrome.contextMenus.create({
- title: "Search Acronym",
- contexts:["selection"],  // ContextType
- onclick: handleContextSearch // A callback function
-});
-
 function handleButtonQuery()
 {
 	queryRemote(document.getElementById("query").value);
 }
 
-function handleContextSearch(word)
+function handleContextSearch(word,tab)
 {
-	queryRemote(word.selectionText);	
+	console.log('Click Handler');
+	console.log(word);
+	if(e.selectionText)
+	{
+		queryRemote(word.selectionText);
+	}	
 }
 
 function queryRemote(query)
@@ -29,6 +28,7 @@ function queryRemote(query)
 	xhr.send(null);
 	
 	document.getElementById("result").innerHTML="loading data from "+url;
+	document.getElementById('result-data').innerHTML="";
 	xhr.onreadystatechange = function() 
 	{ 
 		if(xhr.readyState == 4 && xhr.status == 200) 
