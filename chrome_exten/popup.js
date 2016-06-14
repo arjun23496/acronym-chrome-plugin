@@ -20,7 +20,7 @@ function handleContextSearch(word,tab)
 function queryRemote(query)
 {
 	// var query=document.getElementById("query").value;
-	var url='http://cds-myonlinesites.rhcloud.com?q='+query;
+	var url='http://localhost:8080?q='+query;
 	// var url='http://localhost:8080?q='+query;
 	var xhr = new XMLHttpRequest();
 
@@ -41,21 +41,30 @@ function queryRemote(query)
 		        var x;
 		        var resData=document.getElementById('result-data');
 		        var html="";
-		        var n = res['data']['acronym']['found'][0]['$']['n'];
+		    	var n=res['n'];
+		        // var n = res['data']['acronym']['found'][0]['$']['n'];
 		        document.getElementById('result').innerHTML= "Found "+n+" result(s)";
+
+		        if(n>0)
+		        {
+		        	for(x in res['data'])
+		        	{
+		        		html=html+"<li>"+res['data'][x]['Acronym']+" - "+res['data'][x]['Expansion']+"</li>";
+		        	}
+		        }
 		    	
-		    	if(n>0)
-		    	{
-		    		for(x in res['data']['acronym']['found'][0]['acro'])
-		    		{
-		    			html=html+"<li>"+res['data']['acronym']['found'][0]['acro'][x]['expan'][0]+" - "+res['data']['acronym']['found'][0]['acro'][x]['comment'][0]+"</li>";
-		    		}
-		    	}
+		    	// if(n>0)
+		    	// {
+		    	// 	for(x in res['data']['acronym']['found'][0]['acro'])
+		    	// 	{
+		    	// 		html=html+"<li>"+res['data']['acronym']['found'][0]['acro'][x]['expan'][0]+" - "+res['data']['acronym']['found'][0]['acro'][x]['comment'][0]+"</li>";
+		    	// 	}
+		    	// }
 		    	document.getElementById('result-data').innerHTML=html;
 	    	}
 	    	else
 			{
-				document.getElementById('result').innerHTML= "Network Problem";		
+				document.getElementById('result').innerHTML= "Critical Problem";		
 			}
 
 	    }

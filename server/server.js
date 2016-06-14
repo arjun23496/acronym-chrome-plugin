@@ -8,6 +8,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http       = require('http');
 
+//Api routes
+var api = require('./api/index.js');
+
 var app     = express();
 
 //  Set the environment variables we need.
@@ -59,13 +62,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var allowCrossDomain = function(req, res, next) {
-    if(process.env.NODE_ENV == 'production') {
-        res.header("Access-Control-Allow-Origin", "https://team.fkinternal.com");        
-    } else if(process.env.NODE_ENV == 'staging') {
-        res.header("Access-Control-Allow-Origin", "http://steam.fkinternal.com:8888");
-    } else {
-        res.header("Access-Control-Allow-Origin", "*");
-    }
+    
+  res.header("Access-Control-Allow-Origin", "*");    
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
   next();
@@ -74,45 +72,46 @@ app.use(allowCrossDomain);
 
 //Routes here
 
-app.get('/',function(req,res,next){
+app.get('/acronym',api.searchAcronym);
+app.post('/acronym',api.createAcronym);
 
-    var query = req.query.q;
-    var request = require('request');
-    var parseString = require('xml2js').parseString;
+// app.get('/',function(req,res,next){
 
-    console.log(query);
+//     var query = req.query.q;
+//     var request = require('request');
+//     var parseString = require('xml2js').parseString;
 
-    if(query!=undefined)
-    {
-      request("http://acronyms.silmaril.ie/cgi-bin/xaa?"+query,function(error,response,body){
-          if(error)
-          {
-            console.log(error);
-            res.send(error);
-          }
-          else
-          {
-            // console.log(response);
-            console.log(typeof body);
-            parseString(body,function(err,result){
-              if(err)
-              {
-                res.send(err);
-              }
-              else
-              {
-                console.log(result);
-                res.send({ status:true, data:result });
-              }
-            });
-          }
-      });
-    }
-    else
-    {
-      res.status(500).json({ status:false, message: "Parameter Problem" });
-    }
-});
+//     console.log(query);
+
+//     if(query!=undefined)
+//     {
+//       request("http://acronyms.silmaril.ie/cgi-bin/xaa?"+query,function(error,response,body){
+//           if(error)
+//           {
+//             console.log(error);
+//             res.send(error);
+//           }
+//           else
+//           {
+//             parseString(body,function(err,result){
+//               if(err)
+//               {
+//                 res.send(err);
+//               }
+//               else
+//               {
+//                 console.log(result);
+//                 res.send({ status:true, data:result });
+//               }
+//             });
+//           }
+//       });
+//     }
+//     else
+//     {
+//       res.status(500).json({ status:false, message: "Parameter Problem" });
+//     }
+// });
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

@@ -27,7 +27,7 @@ function onClickHandler(info, tab) {
 function queryRemote(query)
 {
 	// var query=document.getElementById("query").value;
-	var url='http://cds-myonlinesites.rhcloud.com?q='+query;
+	var url='http://localhost:8080?q='+query;
 	var xhr = new XMLHttpRequest();
 
 	console.log(url);
@@ -47,21 +47,37 @@ function queryRemote(query)
 
 		    	if(n>0)
 		    	{
-		    		for(x in res['data']['acronym']['found'][0]['acro'])
+		    		for(x in res['data'])
 		    		{
-		    			items.push({ title: res['data']['acronym']['found'][0]['acro'][x]['expan'][0], 
-		    				message: res['data']['acronym']['found'][0]['acro'][x]['comment'][0] });
+		    			items.push({ title: res['data'][x]['Acronym'], message:res['data'][x]['Expansion'] });
 		    		}
+		    		// for(x in res['data']['acronym']['found'][0]['acro'])
+		    		// {
+		    		// 	items.push({ title: res['data']['acronym']['found'][0]['acro'][x]['expan'][0], 
+		    		// 		message: res['data']['acronym']['found'][0]['acro'][x]['comment'][0] });
+		    		// }
 		    	}		    	
 			  	
-			  	chrome.notifications.create({
-			  		type: "list",
-			  		iconUrl: "icon.png",
-			  		title: "Acronym Finder",
-			  		message: "Found "+n+" acronyms",
-			  		items: items,
-			  		isClickable: true
-			  	});
+			  	if(list.length > 0)
+			  	{
+				  	chrome.notifications.create({
+				  		type: "list",
+				  		iconUrl: "icon.png",
+				  		title: "Acronym Finder",
+				  		message: "Found "+n+" acronyms",
+				  		items: items,
+				  		isClickable: true
+				  	});	
+			  	}
+			  	else
+			  	{
+			  		chrome.notifications.create({
+				  		type: "basic",
+				  		iconUrl: "icon.png",
+				  		title: "Acronym Finder",
+				  		message: "Found 0 acronyms",
+				  	});
+			  	}
 	    	}
 	    	else
 			{	
